@@ -11,7 +11,7 @@ class App(tk.Frame):
         self.create_vpn()
 
 
-        super().__init__(self, master)
+        tk.Frame.__init__(self, master)
         self.pack()
 
         # Создание label для ввода данных
