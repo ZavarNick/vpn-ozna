@@ -1,14 +1,18 @@
 import tkinter as tk
-import subprocess
-import os
 from dotenv import load_dotenv
+
+from create_route import *
 
 
 class App(tk.Frame):
     def __init__(self, master):
         load_dotenv()
+
         # Создание vpn соединения
         self.create_vpn()
+
+        # Выключение использования общего шлюза
+        split_tunneling_switch()
 
         tk.Frame.__init__(self, master)
         self.pack()
@@ -59,6 +63,12 @@ class App(tk.Frame):
 
             # Вывод сообщения на фрейм
             self.output.configure(text='Соединения установлено')
+
+            # Удаления старого постоянного маршрута
+            delete_route()
+
+            # Создание постоянного маршрута для обхода трафика компании
+            make_route()
 
             # После паузы в 3 секунды закрывается окно
             root.after(3000, root.destroy)
