@@ -10,7 +10,6 @@ class App(tk.Frame):
         # Создание vpn соединения
         self.create_vpn()
 
-
         tk.Frame.__init__(self, master)
         self.pack()
 
@@ -47,8 +46,9 @@ class App(tk.Frame):
     @staticmethod
     def create_vpn():
         '''Создание VPN соединения'''
+
         subprocess.call(
-            f'powershell.exe Add-VpnConnection -Name VPN-OZNA -ServerAddress {os.getenv('IP')} -TunnelType "Pptp"',
+            f'powershell.exe -WindowStyle hidden Add-VpnConnection -Name VPN-OZNA -ServerAddress {os.getenv('IP')} -TunnelType "Pptp"',
             shell=True)
 
     def vpn_connect(self):
