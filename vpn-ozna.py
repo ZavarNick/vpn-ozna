@@ -1,12 +1,11 @@
 import tkinter as tk
-from dotenv import load_dotenv
 
 from create_route import *
+from config import config
 
 
 class App(tk.Frame):
     def __init__(self, master):
-        load_dotenv()
 
         # Создание vpn соединения
         self.create_vpn()
@@ -52,7 +51,7 @@ class App(tk.Frame):
         '''Создание VPN соединения'''
 
         subprocess.call(
-            f'powershell.exe -WindowStyle hidden Add-VpnConnection -Name VPN-OZNA -ServerAddress {os.getenv('IP')} -TunnelType "Pptp"',
+            f'powershell.exe -WindowStyle hidden Add-VpnConnection -Name VPN-OZNA -ServerAddress {config.get('ip')} -TunnelType "Pptp"',
             shell=True)
 
     def vpn_connect(self):
@@ -65,10 +64,10 @@ class App(tk.Frame):
             self.output.configure(text='Соединения установлено')
 
             # Удаления старого постоянного маршрута
-            delete_route()
+            delete_route(config.get('ip_network'))
 
             # Создание постоянного маршрута для обхода трафика компании
-            make_route()
+            make_route(config.get('ip_network'))
 
             # После паузы в 3 секунды закрывается окно
             root.after(3000, root.destroy)

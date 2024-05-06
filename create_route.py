@@ -1,5 +1,6 @@
 import subprocess
 import os
+from config import config
 
 
 def get_ip():
@@ -18,15 +19,18 @@ def split_tunneling_switch():
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
 
-def make_route():
+def make_route(ips):
     '''Добавление постоянного маршрута'''
-    result = subprocess.Popen(
-        f'route -p add {os.getenv('IP_NETWORK')} mask {os.getenv('MASK')} {get_ip()}', shell=True,
-        stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    for ip in ips:
+        subprocess.Popen(
+            f'route -p add {ip} mask {config.get('mask')} {get_ip()}', shell=True,
+            stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
 
-def delete_route():
+def delete_route(ips):
     '''Удаление старого постоянного маршрута'''
-    result = subprocess.Popen(
-        f'route delete {os.getenv('IP_NETWORK')}', shell=True,
-        stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+    for ip in ips:
+        result = subprocess.Popen(
+            f'route delete {ip}', shell=True,
+            stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
