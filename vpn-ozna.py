@@ -17,7 +17,7 @@ class App(tk.Frame):
         self.pack()
 
         # Создание label для ввода данных
-        self.prompt_email = tk.Label(self, text="Введите email:", anchor="w")
+        self.prompt_email = tk.Label(self, text="Введите логин:", anchor="w")
 
         # Создание поля для ввода данных почты
         self.email = tk.Entry(self)
@@ -57,7 +57,7 @@ class App(tk.Frame):
     def vpn_connect(self):
         '''Подключение VPN'''
         try:
-            result = subprocess.run(f'powershell.exe rasdial VPN-OZNA {self.email.get()} {self.passwd.get()}',
+            result = subprocess.run(f'powershell.exe -WindowStyle hidden rasdial VPN-OZNA {self.email.get()} {self.passwd.get()}',
                                     check=True)
 
             # Вывод сообщения на фрейм
